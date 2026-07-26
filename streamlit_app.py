@@ -1,21 +1,13 @@
 import streamlit as st
-import psycopg2
-import pandas as pd
-import json
+from my_pages.rotation_page  import rotation_page
 
-DB_URL = st.secrets["SUPABASE_DB_URL"]
 
-@st.cache_data(ttl=3600)  # cache 1h pour éviter de spam la DB à chaque interaction
-def load_indicators():
-    conn = psycopg2.connect(DB_URL, connect_timeout=10)
-    df = pd.read_sql("SELECT * FROM indicators ORDER BY date DESC", conn)
-    conn.close()
-    return df
+st.set_page_config(
+    page_title="Navigation",
+    layout="wide"
+)
 
-st.title("📊 Market Indicators Dashboard")
+rotation_page()
 
-df = load_indicators()
-latest_date = df["date"].max()
-st.caption(f"Dernière mise à jour : {latest_date}")
 
-st.dataframe(df[df["date"] == latest_date][["indicator_name", "value"]])
+
