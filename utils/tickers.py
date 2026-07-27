@@ -9,16 +9,16 @@ SPY_TICKER = "SPY"
 # ─────────────────────────────────────────────
 
 TICKERS_SECTOR_US = {
-    "XLK": "Technologie",
-    "XLV": "Santé",
-    "XLF": "Finance",
-    "XLI": "Industrie",
-    "XLY": "Conso. Discrétionnaire",
-    "XLP": "Conso. de Base",
-    "XLB": "Matériaux",
-    "XLE": "Énergie",
+    "XLK": "Technology",
+    "XLV": "Health Care",
+    "XLF": "Financials",
+    "XLI": "Industrials",
+    "XLY": "Consumer Discretionary",
+    "XLP": "Consumer Staples",
+    "XLB": "Materials",
+    "XLE": "Energy",
     "XLU": "Utilities",
-    "XLC": "Télécom",
+    "XLC": "Communication Services",
 }
 
 TICKERS_TECH_GRANULAR = {
@@ -92,11 +92,11 @@ TICKERS_GRANULAR_US = {
 # ─────────────────────────────────────────────
 
 TICKERS_SECTOR_EUROPE = {
-    "QDVE.DE": "Technologie",
-    "QDVG.DE": "Santé",
-    "QDVH.DE": "Finance",
-    "QDVF.DE": "Énergie",
-    "IMSU.L":  "Matériaux",
+    "QDVE.DE": "Technology",
+    "QDVG.DE": "Health Care",
+    "QDVH.DE": "Financials",
+    "QDVF.DE": "Energy",
+    "IMSU.L":  "Materials",
     "IUSU.L":  "Utilities",
 }
 
