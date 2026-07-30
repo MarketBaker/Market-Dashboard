@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 from my_pages.rotation_page  import rotation_page
 from my_pages.dispersion_page import page_dispersion
 from my_pages.momentum_page import page_momentum
+from my_pages.price_analysis_page import price_analysis_page
 
 st.set_page_config(
     page_title="Navigation",
@@ -21,6 +22,7 @@ SECTIONS = {
         "Momentum Analysis",
         "Rotation Analysis",
         "Dispersion Analysis",
+        "Price Analysis",
     ],
 }
 
@@ -40,6 +42,7 @@ if page == "Rotation Analysis":
 elif page=="Dispersion Analysis":
     page_dispersion()
 
-
+elif page=="Price Analysis":
+    price_analysis_page()
 
 

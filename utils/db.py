@@ -82,6 +82,36 @@ def load_prices(tickers: tuple[str, ...], start: dt.date, end: dt.date) -> pd.Da
     return df.pivot(index="date", columns="ticker", values="close").sort_index()
 
 @st.cache_data(ttl=3600)
+def load_all_tickers() -> pd.DataFrame:
+    """Retourne tous les tickers connus de la table `tickers` (ticker, name, region, category)."""
+    conn = _get_connection()
+    query = "SELECT ticker, name, region, category FROM tickers ORDER BY ticker"
+    return pd.read_sql(query, conn)
+
+
+@st.cache_data(ttl=3600)
+def load_ohlc(ticker: str, start: dt.date, end: dt.date) -> pd.DataFrame:
+    """
+    Lit l'OHLC depuis la table `prices` pour un ticker unique entre deux dates.
+    Retourne un DataFrame indexé par date avec les colonnes Open, High, Low, Close.
+    """
+    conn = _get_connection()
+    query = """
+        SELECT date, open, high, low, close
+        FROM prices
+        WHERE ticker = %(ticker)s AND date BETWEEN %(start)s AND %(end)s
+        ORDER BY date ASC
+    """
+    df = pd.read_sql(query, conn, params={"ticker": ticker, "start": start, "end": end})
+    if df.empty:
+        return df
+    df["date"] = pd.to_datetime(df["date"])
+    df = df.set_index("date").sort_index()
+    df.columns = ["Open", "High", "Low", "Close"]
+    return df
+
+
+@st.cache_data(ttl=3600)
 def load_granular_sectors(region: str) -> dict[str, dict[str, str]]:
     """Construit {ticker_secteur_parent: {ticker_granulaire: nom}} depuis la DB,
     en reliant chaque ticker de drill-down à son secteur parent via la colonne `sector`."""
@@ -103,7 +133,7 @@ def load_regions(region: str) -> pd.DataFrame:
     conn = _get_connection()
     query = """
         SELECT ticker, name, sector, region FROM tickers
-        WHERE region = %(region)s
+        WHERE region = %(region)s and sector != 'stock'
         ORDER BY ticker
     """
     return pd.read_sql(query, conn, params={"region": region})
