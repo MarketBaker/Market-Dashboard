@@ -68,16 +68,15 @@ def _render_heatmap(prices: pd.DataFrame, dict_tickers: dict, index: str, chart_
 
     roc_display = roc_df.drop(index=index, errors="ignore")
     score = compute_composite_score(roc_display, ROC_WEIGHTS)
+    score.index   = [f"{t} - {dict_tickers.get(t)}" for t in score.index]
 
     display = roc_display.copy()
-    display.index = [dict_tickers.get(t, t) for t in display.index]
-    score.index   = [dict_tickers.get(t, t) for t in score.index]
 
     if not rs_df.empty:
         rs_display = rs_df.copy()
-        rs_display.index = [dict_tickers.get(t, t) for t in rs_display.index]
         display = display.join(rs_display, how="left")
 
+    display.index = [f"{dict_tickers.get(t)}- {t}" for t in display.index]
     display["Score"] = score
     display = display.sort_values("Score", ascending=False)
 
@@ -147,7 +146,7 @@ def show_sector_ranking(prices: pd.DataFrame, dict_tickers: dict, title: str, in
         if drillable:
             st.markdown(
                 "<div style='margin:20px 0 8px 0;font-size:15px;font-weight:600;color:#1e293b'>"
-                "🔍 Drill-down sous-sectoriel</div>",
+                "Drill-down sous-sectoriel</div>",
                 unsafe_allow_html=True,
             )
             choice = st.selectbox(

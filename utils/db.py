@@ -133,7 +133,7 @@ def load_regions(region: str) -> pd.DataFrame:
     conn = _get_connection()
     query = """
         SELECT ticker, name, sector, region FROM tickers
-        WHERE region = %(region)s and sector != 'stock'
+        WHERE region = %(region)s and category != 'stock'
         ORDER BY ticker
     """
     return pd.read_sql(query, conn, params={"region": region})
