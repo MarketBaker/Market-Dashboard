@@ -68,7 +68,7 @@ def _render_heatmap(prices: pd.DataFrame, dict_tickers: dict, index: str, chart_
 
     roc_display = roc_df.drop(index=index, errors="ignore")
     score = compute_composite_score(roc_display, ROC_WEIGHTS)
-    score.index   = [f"{t} - {dict_tickers.get(t)}" for t in score.index]
+    score.index   = [f"{dict_tickers.get(t)}- {t}" for t in score.index]
 
     display = roc_display.copy()
 
